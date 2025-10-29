@@ -1,0 +1,58 @@
+<div class="header-container">
+    <div class="header-left">
+        <i class="pi pi-wallet" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem;"></i>
+        <h2 class="title">{{constants.appTitle}}</h2>
+        <p class="subtitle"> {{constants.appSubtitle}}</p>
+    </div>
+    <div class="add-button">
+        <button pButton icon="pi pi-plus" (click)="showAddExpenseDialog = true">{{constants.addExpenseButton}}</button>
+    </div>
+    <div class="filters-section">
+        <i class="pi pi-filter" style="font-size: 1.2rem; margin-right: 0.1rem; margin-top: 1.2rem;"></i>
+        <div class="filter-item">
+            <span>{{constants.filterStartDate}}</span>
+            <p-datepicker [(ngModel)]="startDate" dateFormat="dd M yy" (ngModelChange)="applyFilter()"></p-datepicker>
+        </div>
+        <div class="filter-item">
+            <span>{{constants.filterEndDate}}</span>
+            <p-datepicker [(ngModel)]="endDate" dateFormat="dd M yy" (ngModelChange)="applyFilter()"></p-datepicker>
+        </div>
+        <div class="filter-item">
+            <span>{{constants.filterCategory}}</span>
+            <p-select [(ngModel)]="selectedCategory" [options]="categories" optionLabel="label"
+                (ngModelChange)="applyFilter()" optionValue="value" placeholder="Select"></p-select>
+        </div>
+    </div>
+</div>
+<p-dialog header="Add Expense" [(visible)]="showAddExpenseDialog" [modal]="true" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-4">{{constants.dialogSubtitle}}</span>
+
+    <div class="dialog-form-row">
+        <label for="description" class="font-semibold w-24">{{constants.descriptionLabel}}</label>
+        <input pInputText id="description" class="flex-auto" autocomplete="off" [(ngModel)]="expense.description" />
+    </div>
+
+    <div class="dialog-form-row">
+        <label for="amount" class="font-semibold w-24">{{constants.amountLabel}}</label>
+        <input pInputText id="amount" type="number" class="flex-auto" autocomplete="off" [(ngModel)]="expense.amount" />
+    </div>
+
+    <div class="dialog-form-row">
+        <label for="category" class="font-semibold w-24">{{constants.categoryLabel}}</label>
+        <p-select id="category" [(ngModel)]="expense.category" appendTo="body" [options]="categories"
+            optionLabel="label" optionValue="value" placeholder="Select Category" class="flex-auto"></p-select>
+    </div>
+
+    <div class="dialog-form-row">
+        <label for="date" class="font-semibold w-24">{{constants.dateLabel}}</label>
+        <p-datepicker id="date" [(ngModel)]="expense.date" appendTo="body" dateFormat="dd M yy"
+            class="flex-auto"></p-datepicker>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4">
+        <p-button severity="secondary"
+            (click)="showAddExpenseDialog = false">{{constants.cancelButton}}</p-button>
+        <p-button 
+         (click)="addExpense()">{{constants.saveButton}}</p-button>
+    </div>
+</p-dialog>

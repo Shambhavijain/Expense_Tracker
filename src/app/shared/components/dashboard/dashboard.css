@@ -1,0 +1,192 @@
+.dashboard-container {
+    padding: 1.5rem;
+    background-color: #f9fafb;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header Section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.header-left h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.header-left p {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.header-right button {
+    background-color: #000;
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.filters button,
+.filters select {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Summary Cards */
+.summary-cards {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.summary-card {
+    flex: 1;
+    padding: 1rem;
+    background: #041861;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(92, 91, 91, 0.1);
+    text-align: left;
+}
+
+.summary-card h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 0;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    color: #fff;
+    /* Adjust for dark background */
+}
+
+.card-header i {
+    font-size: 1.5rem;
+    color: #fff;
+    /* Matches card theme */
+}
+
+
+.summary-card .amount {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin: 0.5rem 0.5rem;
+}
+
+.summary-card small {
+    color: #caced5;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.tabs button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: #e6e9ef;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.tabs button.active {
+    background: #111827;
+    color: #fff;
+}
+
+.tab-content {
+    background: #000000;
+    /* Change from #e0e8ee to white for better contrast */
+    padding: 1rem;
+    border-radius: 8px;
+    min-height: 150px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.expense-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.expense-table th,
+.expense-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.expense-table th {
+    background-color: #898b8d;
+    font-weight: 600;
+}
+
+.expense-table tr:hover {
+    background-color: #f9fafb;
+}
+
+.empty-state {
+    text-align: center;
+    align-items: center;
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.analytics-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    /* ✅ Allow wrapping on smaller screens */
+    justify-content: space-between;
+    /* ✅ Better alignment */
+}
+
+.chart-card {
+    flex: 1 1 48%;
+    /* ✅ Responsive: each takes ~half width */
+    max-width: 48%;
+    min-width: 300px;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+p-chart {
+    width: 100% !important;
+    height: 350px !important;
+}

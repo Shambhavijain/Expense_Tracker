@@ -1,0 +1,82 @@
+<div class="dashboard-container">
+
+    <div class="summary-cards">
+        <p-card class="summary-card">
+            <div class="card-header">
+                <h3>{{constants.totalExpensesTitle}}</h3>
+                <i class="pi pi-dollar" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem;"></i>
+            </div>
+            <p class="amount">{{ totalExpense() | currency:'INR': 'symbol':'1.2-2' }}</p>
+            <small>{{ expenses().length }} {{constants.transactionsLabel}}</small>
+        </p-card>
+
+        <p-card class="summary-card">
+            <div class="card-header">
+                <h3>{{constants.averageExpenseTitle}}</h3>
+                <i class="pi pi-chart-line" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem;"></i>
+            </div>
+            <p class="amount">{{ averageExpense() | currency:'INR': 'symbol':'1.2-2'}}</p>
+            <small>{{constants.perTransactionLabel}}</small>
+        </p-card>
+
+        <p-card class="summary-card">
+            <div class="card-header">
+                <h3>{{constants.topCategoryTitle}}</h3>
+                <i class="pi pi-shopping-cart" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem;"></i>
+            </div>
+            <p class="amount">{{ topCategory() === 'N/A' ? '0.00' : topCategory() }}</p>
+            <small>{{ topCategory() }}</small>
+        </p-card>
+    </div>
+
+    <div class="tabs">
+        <button [class.active]="activeTab() === 'list'"
+            (click)="switchTab('list')">{{constants.expenseListTab}}</button>
+        <button [class.active]="activeTab() === 'analytics'"
+            (click)="switchTab('analytics')">{{constants.analyticsTab}}</button>
+    </div>
+
+    <ng-container *ngIf="activeTab() === 'list'">
+        <div class="tab-content">
+            <div *ngIf="filteredExpenses().length === 0" class="empty-state">
+                {{constants.emptyStateMessage}}
+            </div>
+
+            <table *ngIf="filteredExpenses().length > 0" class="expense-table">
+                <thead>
+                    <tr>
+                        <th>{{constants.category}}</th>
+                        <th>{{constants.date}}</th>
+                        <th>{{constants.amount}}</th>
+                        <th>{{constants.description}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let expense of filteredExpenses()">
+                        <td>{{ expense.category }}</td>
+                        <td>{{ expense.date | date:'dd MMM yyyy' }}</td>
+                        <td>${{ expense.amount }}</td>
+                        <td>{{ expense.description }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab() === 'analytics'">
+        <div class="analytics-container">
+            <p-card class="chart-card">
+                <h4>{{constants.spendingByCategory}}</h4>
+                <p-chart type="pie" [data]="categoryChartData()" [options]="chartOptions"></p-chart>
+            </p-card>
+            <p-card class="chart-card ">
+                <h4>{{constants.monthlyTrends}}</h4>
+                <p-chart type="bar" [data]="monthlyChartData()" [options]="chartOptions"></p-chart>
+            </p-card>
+        </div>
+    </ng-container>
+
+
+    
+
+    
