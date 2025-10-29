@@ -1,30 +1,34 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { Expense } from '../models/expense';
 import { ChartData } from 'chart.js';
-
+import { ExpenseFilter } from '../models/expense';
 @Injectable({ providedIn: 'root' })
 export class ExpenseService {
 
-expenses = signal<Expense[]>
-(this.loadExpensesFromLocalStorage());
-    filters = signal<{ startDate: Date | null; endDate: Date | null; category: string | null }>({
+    expenses = signal<Expense[]>
+        (this.loadExpensesFromLocalStorage());
+
+    filters = signal<ExpenseFilter>({
         startDate: null,
         endDate: null,
         category: null
     });
 
 
-  addExpense(expense: Expense) {
-  this.expenses.update(exp => {
-    const updated = [...exp, expense];
-    this.saveExpensesToLocalStorage(updated);
-    return updated;
-  });
-}
 
-    setFilters(filters: { startDate: Date | null; endDate: Date | null; category: string | null }) {
+    addExpense(expense: Expense) {
+        this.expenses.update(exp => {
+            const updated = [...exp, expense];
+            this.saveExpensesToLocalStorage(updated);
+            return updated;
+        });
+    }
+
+
+    setFilters(filters: ExpenseFilter) {
         this.filters.set(filters);
     }
+
 
 
     filteredExpenses = computed(() => {
@@ -38,7 +42,7 @@ expenses = signal<Expense[]>
         });
     });
 
-   
+
     categoryChartData = computed<ChartData<'pie'>>(() => {
         const data = this.filteredExpenses();
         const categoryTotals: Record<string, number> = {};
@@ -55,7 +59,7 @@ expenses = signal<Expense[]>
         };
     });
 
- 
+
     monthlyChartData = computed<ChartData<'bar'>>(() => {
         const data = this.filteredExpenses();
         const monthlyTotals: Record<string, number> = {};
@@ -77,12 +81,12 @@ expenses = signal<Expense[]>
     });
 
     private loadExpensesFromLocalStorage(): Expense[] {
-  const data = localStorage.getItem('expenses');
-  return data ? JSON.parse(data) : [];
-}
+        const data = localStorage.getItem('expenses');
+        return data ? JSON.parse(data) : [];
+    }
 
-private saveExpensesToLocalStorage(expenses: Expense[]) {
-  localStorage.setItem('expenses', JSON.stringify(expenses));
-}
+    private saveExpensesToLocalStorage(expenses: Expense[]) {
+        localStorage.setItem('expenses', JSON.stringify(expenses));
+    }
 
 }

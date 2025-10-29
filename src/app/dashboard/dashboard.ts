@@ -1,10 +1,10 @@
 import { Component, computed, inject, Pipe, signal } from '@angular/core';
-import { ExpenseService } from '../../services/expense.service';
+import { ExpenseService } from '../shared/services/expense.service';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { CommonModule, NgFor } from '@angular/common';
 import { ChartOptions } from 'chart.js';
-import { APP_CONSTANTS } from '../../constants/constStr';
+import { APP_CONSTANTS } from '../shared/constants/constStr';
 
 @Component({
   selector: 'app-dashboard',

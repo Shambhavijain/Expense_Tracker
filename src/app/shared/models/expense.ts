@@ -4,3 +4,8 @@ export type Expense = {
     category: string;
     date: Date;
 }
+export interface ExpenseFilter {
+  startDate: Date | null;
+  endDate: Date | null;
+  category: string | null;
+}

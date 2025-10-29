@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./shared/components/header/header";
-import { DashboardComponent } from "./shared/components/dashboard/dashboard";
+import { DashboardComponent } from './dashboard/dashboard';
 
 @Component({
   selector: 'app-root',
