@@ -14,14 +14,12 @@ import { APP_CONSTANTS } from '../shared/constants/constStr';
   styleUrls: ['./dashboard.css']
 })
 export class DashboardComponent {
-  constants =APP_CONSTANTS
+  constants = APP_CONSTANTS
   private expenseService = inject(ExpenseService);
 
- 
   expenses = this.expenseService.expenses;
   filters = this.expenseService.filters;
   filteredExpenses = this.expenseService.filteredExpenses;
-
 
   activeTab = signal<'list' | 'analytics'>('list');
 
@@ -35,15 +33,15 @@ export class DashboardComponent {
     return Object.entries(categoryCount).sort((a, b) => b[1] - a[1])[0][0];
   });
 
-categoryChartData = this.expenseService.categoryChartData;
-monthlyChartData = this.expenseService.monthlyChartData;
+  categoryChartData = this.expenseService.categoryChartData;
+  monthlyChartData = this.expenseService.monthlyChartData;
 
-chartOptions: ChartOptions = { 
-responsive: true,
+  chartOptions: ChartOptions = {
+    responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom', 
+        position: 'bottom',
         labels: {
           boxWidth: 20,
           font: {
@@ -53,9 +51,9 @@ responsive: true,
       }
     }
   };
+
   switchTab(tab: 'list' | 'analytics') {
     this.activeTab.set(tab);
   }
 
-  
 }

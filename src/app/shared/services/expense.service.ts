@@ -6,15 +6,13 @@ import { ExpenseFilter } from '../models/expense';
 export class ExpenseService {
 
     expenses = signal<Expense[]>
-        (this.loadExpensesFromLocalStorage());
+    (this.loadExpensesFromLocalStorage());
 
     filters = signal<ExpenseFilter>({
         startDate: null,
         endDate: null,
         category: null
     });
-
-
 
     addExpense(expense: Expense) {
         this.expenses.update(exp => {
@@ -24,12 +22,9 @@ export class ExpenseService {
         });
     }
 
-
     setFilters(filters: ExpenseFilter) {
         this.filters.set(filters);
     }
-
-
 
     filteredExpenses = computed(() => {
         const { startDate, endDate, category } = this.filters();
@@ -41,7 +36,6 @@ export class ExpenseService {
             return dateMatch && categoryMatch;
         });
     });
-
 
     categoryChartData = computed<ChartData<'pie'>>(() => {
         const data = this.filteredExpenses();
@@ -59,21 +53,32 @@ export class ExpenseService {
         };
     });
 
-
     monthlyChartData = computed<ChartData<'bar'>>(() => {
         const data = this.filteredExpenses();
+        if (!data.length) {
+            return { labels: [], datasets: [] };
+        }
+
         const monthlyTotals: Record<string, number> = {};
         data.forEach(e => {
-            const month = new Date(e.date).toLocaleString('default', { month: 'short', year: 'numeric' });
-            monthlyTotals[month] = (monthlyTotals[month] || 0) + e.amount;
+            const label = new Date(e.date).toLocaleString('default', { month: 'short', year: 'numeric' });
+            monthlyTotals[label] = (monthlyTotals[label] || 0) + e.amount;
+        });
+
+        const labels = Object.keys(monthlyTotals).sort((a, b) => {
+            const [monthA, yearA] = a.split(' ');
+            const [monthB, yearB] = b.split(' ');
+            const dateA = new Date(`${monthA} 1, ${yearA}`);
+            const dateB = new Date(`${monthB} 1, ${yearB}`);
+            return dateA.getTime() - dateB.getTime();
         });
 
         return {
-            labels: Object.keys(monthlyTotals),
+            labels,
             datasets: [
                 {
                     label: 'Monthly Expenses',
-                    data: Object.values(monthlyTotals),
+                    data: labels.map(l => monthlyTotals[l]),
                     backgroundColor: '#42A5F5'
                 }
             ]
