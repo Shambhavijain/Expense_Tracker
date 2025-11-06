@@ -1,15 +1,14 @@
-.header-container {
+.header-left {
     display: flex;
-    flex-direction: column;
-    /* Stack title and filters vertically */
-    padding: 0.5rem 0.5rem;
-    background-color: #000000;
-    border-bottom: 1px solid #ddd;
+    flex-direction: column; /* Stack icon and text vertically */
+       
+    gap: 0.4rem;            
+    margin-top: 0.5rem;
 }
 
-.header-left {
-    margin-bottom: 0
-        /* Space between title and filters */
+.header-left i {
+    font-size: 2rem; 
+    margin: 0;       
 }
 
 .title {
@@ -24,10 +23,108 @@
     font-size: 0.9rem;
 }
 
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.75rem 2rem 0.75rem 2rem;
+    background-color: #ffffff;
+   
+    border-radius: 12px;
+    color: #fff;
+    max-width: 1480px;
+    margin: 0 auto;
+}
+
+.icon-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.header-icon {
+    font-size: 1.8rem;
+    margin-top: 0.3rem;
+    color: #000000;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+     color: #000000;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #000000;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: -0.1rem;
+}
+
+.add-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2.5rem;
+    background-color: #4CAF50;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    height: 34px;
+}
+
+.add-button:hover {
+    opacity: 0.9;
+}
+
+.filters-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-item {
+    margin-top: 2.6rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+    background-color: white;
+    color: #000000;
+}
+
+.filter-item label {
+    margin-bottom: 0.2rem;
+}
+
+
+.filter-item input,
+.filter-item select {
+    height: 34px;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #929191;
+    background-color: #ffffff;
+    color: #000000;
+}
+
 .filters-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+::ng-deep .filter-item .p-inputtext {
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid #ccc !important;
 }
 
 .filters-section {
@@ -36,31 +133,18 @@
     align-items: center;
 }
 
-.filter-item {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.85rem;
-}
 
-.add-button {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 0.0rem;
-    border: none;
-    font-size: 0.9rem;
-    border-radius: 6px;
 
-}
+
 
 
 .p-dialog .p-dialog-content {
     padding: 1.5rem;
     background-color: #fff;
-    /* Light background for better readability */
     border-radius: 8px;
 }
 
-/* Header */
+
 .p-dialog .p-dialog-header {
     font-size: 1.25rem;
     font-weight: 600;
@@ -69,14 +153,13 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
-/* Subtitle */
 .p-text-secondary {
     font-size: 0.9rem;
-    color: #6c6868;
+    color: #2c2b2b;
     margin-bottom: 1rem;
 }
 
-/* Form Fields */
+
 .flex.items-center {
     display: flex;
     align-items: center;
@@ -94,7 +177,7 @@ label {
 }
 
 
-/* Buttons */
+
 .flex.justify-end .p-button {
     min-width: 90px;
     padding: 0.3rem 1rem;
@@ -124,7 +207,7 @@ label {
 
 .p-datepicker,
 .p-dropdown-panel {
-    z-index: 9999 !important;
+    z-index: 1 !important;
 }
 
 .p-dialog {
@@ -135,29 +218,63 @@ label {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
 }
 
 .dialog-form-row label {
     width: 120px;
     font-weight: 500;
-    color: #e7e4e4;
+    color: #414040;
+   
 }
+
 
 .dialog-form-row input,
 .dialog-form-row .p-select,
-.dialog-form-row .p-datepicker {
-    flex: 1;
-    width: 100%;
+.dialog-form-row .p-datepicker input {
+    height: 48px;
+    
     padding: 0.5rem;
+    font-size: 0.95rem;
     border-radius: 6px;
     border: 1px solid #ccc;
-    font-size: 0.95rem;
+    box-sizing: border-box;
+}
+
+
+.dialog-form-row .p-datepicker {
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+}
+
+
+.dialog-form-row .p-datepicker input {
+    width: 100%;
+}
+
+
+.p-error {
+    color: #ff4d4d;
+    font-size: 0.8rem;
+    margin-left: 120px;
+    display: block;
+    margin-top: -0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .flex.justify-end {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    /* Adjust spacing between Cancel and Save */
+
+}
+::ng-deep .filter-item .p-dropdown {
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid #ccc !important;
+}
+
+::ng-deep .filter-item .p-dropdown .p-dropdown-label {
+    color: black !important;
 }

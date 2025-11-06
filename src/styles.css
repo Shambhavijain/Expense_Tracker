@@ -3,3 +3,14 @@ body {
   font-family: 'Inter', sans-serif;
   margin: 0;
 }
+
+
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.p-paginator .p-paginator-page {
+    color: black !important;
+}
+
+

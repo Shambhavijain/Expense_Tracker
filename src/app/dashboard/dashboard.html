@@ -4,10 +4,10 @@
         <p-card class="summary-card">
             <div class="card-header">
                 <h3>{{constants.totalExpensesTitle}}</h3>
-                <i class="pi pi-dollar" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem;"></i>
+                <i class="pi pi-indian-rupee" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem;"></i>
             </div>
-            <p class="amount">{{ totalExpense() | currency:'INR': 'symbol':'1.2-2' }}</p>
-            <small>{{ expenses().length }} {{constants.transactionsLabel}}</small>
+            <p class="amount">{{ totalExpenseAmount() | currency:'INR': 'symbol':'1.2-2' }}</p>
+            <small>{{ allExpenses().length }} {{constants.transactionsLabel}}</small>
         </p-card>
 
         <p-card class="summary-card">
@@ -15,7 +15,7 @@
                 <h3>{{constants.averageExpenseTitle}}</h3>
                 <i class="pi pi-chart-line" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem;"></i>
             </div>
-            <p class="amount">{{ averageExpense() | currency:'INR': 'symbol':'1.2-2'}}</p>
+            <p class="amount">{{ averageExpenseAmount() | currency:'INR': 'symbol':'1.2-2'}}</p>
             <small>{{constants.perTransactionLabel}}</small>
         </p-card>
 
@@ -24,8 +24,8 @@
                 <h3>{{constants.topCategoryTitle}}</h3>
                 <i class="pi pi-shopping-cart" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem;"></i>
             </div>
-            <p class="amount">{{ topCategory() === 'N/A' ? '0.00' : topCategory() }}</p>
-            <small>{{ topCategory() }}</small>
+            <p class="amount">{{ topSpendingCategory() === 'N/A' ? '0.00' : topSpendingCategory() }}</p>
+            <small>{{ topSpendingCategory() }}</small>
         </p-card>
     </div>
 
@@ -42,6 +42,7 @@
                 {{constants.emptyStateMessage}}
             </div>
 
+
             <table *ngIf="filteredExpenses().length > 0" class="expense-table">
                 <thead>
                     <tr>
@@ -49,18 +50,32 @@
                         <th>{{constants.date}}</th>
                         <th>{{constants.amount}}</th>
                         <th>{{constants.description}}</th>
+                        <th>{{constants.delete}}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let expense of filteredExpenses()">
+
+                    <tr *ngFor="let expense of paginatedExpenses()">
                         <td>{{ expense.category }}</td>
                         <td>{{ expense.date | date:'dd MMM yyyy' }}</td>
-                        <td>${{ expense.amount }}</td>
+                        <td>{{ expense.amount | currency:'INR': 'symbol':'1.2-2' }}</td>
                         <td>{{ expense.description }}</td>
+                        <td>
+                            <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                        (click)="onDeleteExpense(expense.id)">
+                    </button>
+                        </td>
                     </tr>
+                    
                 </tbody>
             </table>
+
+            <p-paginator style="background-color:white; color: black;" [rows]="rowsPerPage()"
+                [totalRecords]="filteredExpenses().length" [first]="first()" (onPageChange)="onPageChange($event)">
+            </p-paginator>
+
         </div>
+
     </ng-container>
 
     <ng-container *ngIf="activeTab() === 'analytics'">
@@ -77,6 +92,7 @@
     </ng-container>
 
 
-    
+
+
 
     

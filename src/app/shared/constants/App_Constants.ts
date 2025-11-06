@@ -4,7 +4,7 @@ export const APP_CONSTANTS = {
     addExpenseButton: 'Add Expense',
     filterStartDate: 'Start Date',
     filterEndDate: 'End Date',
-    filterCategory: 'All Categories',
+    filterCategory: 'Categories',
     dialogHeader: 'Add Expense',
     dialogSubtitle: 'Add New Expense',
     descriptionLabel: 'Description',
@@ -28,7 +28,13 @@ export const APP_CONSTANTS = {
     amount: 'Amount',
     description: 'Description',
     spendingByCategory: 'Spending by Category',
-    monthlyTrends: 'Monthly Trends'
+    monthlyTrends: 'Monthly Trends',
+    delete:'Delete'
 
 };
+
+export const CHART_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'];
+
+
+
 

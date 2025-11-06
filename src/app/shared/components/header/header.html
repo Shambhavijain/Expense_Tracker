@@ -1,58 +1,116 @@
+<p-toast position="bottom-right"></p-toast>
 <div class="header-container">
     <div class="header-left">
-        <i class="pi pi-wallet" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem;"></i>
-        <h2 class="title">{{constants.appTitle}}</h2>
-        <p class="subtitle"> {{constants.appSubtitle}}</p>
-    </div>
-    <div class="add-button">
-        <button pButton icon="pi pi-plus" (click)="showAddExpenseDialog = true">{{constants.addExpenseButton}}</button>
-    </div>
-    <div class="filters-section">
-        <i class="pi pi-filter" style="font-size: 1.2rem; margin-right: 0.1rem; margin-top: 1.2rem;"></i>
-        <div class="filter-item">
-            <span>{{constants.filterStartDate}}</span>
-            <p-datepicker [(ngModel)]="startDate" dateFormat="dd M yy" (ngModelChange)="applyFilter()"></p-datepicker>
+        <i class="pi pi-wallet" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem; color:black"></i>
+        <div class="header-text">
+            <h2 class="title">{{constants.appTitle}}</h2>
+            <p class="subtitle"> {{constants.appSubtitle}}</p>
         </div>
-        <div class="filter-item">
-            <span>{{constants.filterEndDate}}</span>
-            <p-datepicker [(ngModel)]="endDate" dateFormat="dd M yy" (ngModelChange)="applyFilter()"></p-datepicker>
-        </div>
-        <div class="filter-item">
-            <span>{{constants.filterCategory}}</span>
-            <p-select [(ngModel)]="selectedCategory" [options]="categories" optionLabel="label"
-                (ngModelChange)="applyFilter()" optionValue="value" placeholder="Select"></p-select>
+    </div>
+    <div class="header-right">
+
+        <div class="filters-section">
+            <i class="pi pi-filter"
+                style="font-size: 1.2rem; margin-right: 0.1rem; margin-top: 2.6rem; color: black;"></i>
+            <div class="filter-item">
+                <!-- <span>{{constants.filterStartDate}}</span> -->
+                <p-floatlabel>
+                    <p-datepicker [(ngModel)]="startDate" inputId="startdate" dateFormat="dd M yy"
+                        (ngModelChange)="applyFilter()" placeholder="From date"></p-datepicker>
+                    <label for="startdate">Start Date</label>
+                </p-floatlabel>
+            </div>
+            <div class="filter-item">
+                <!-- <span>{{constants.filterEndDate}}</span> -->
+                <p-floatlabel>
+                    <p-datepicker [(ngModel)]="endDate" inputId="enddate" dateFormat="dd M yy"
+                        (ngModelChange)="applyFilter()" placeholder="To date"></p-datepicker>
+                    <label for="enddate">End Date</label>
+                </p-floatlabel>
+            </div>
+            <div class="filter-item">
+                <!-- <span>{{constants.filterCategory}}</span> -->
+                <p-select [(ngModel)]="selectedCategory" [options]="categories" optionLabel="label"
+                    (ngModelChange)="applyFilter()" optionValue="value" placeholder="Select"></p-select>
+            </div>
+            <div class="add-button">
+                <button pButton icon="pi pi-plus"
+                    (click)="showAddExpenseDialog = true">{{constants.addExpenseButton}}</button>
+            </div>
         </div>
     </div>
 </div>
-<p-dialog header="Add Expense" [(visible)]="showAddExpenseDialog" [modal]="true" [style]="{ width: '25rem' }">
-    <span class="p-text-secondary block mb-4">{{constants.dialogSubtitle}}</span>
 
-    <div class="dialog-form-row">
-        <label for="description" class="font-semibold w-24">{{constants.descriptionLabel}}</label>
-        <input pInputText id="description" class="flex-auto" autocomplete="off" [(ngModel)]="expense.description" />
-    </div>
 
-    <div class="dialog-form-row">
-        <label for="amount" class="font-semibold w-24">{{constants.amountLabel}}</label>
-        <input pInputText id="amount" type="number" class="flex-auto" autocomplete="off" [(ngModel)]="expense.amount" />
-    </div>
+<p-dialog header="Add Expense" [(visible)]="showAddExpenseDialog" [modal]="true" [closable]="false"
+    [style]="{ width: '25rem' }">
+    <form #expenseForm="ngForm">
 
-    <div class="dialog-form-row">
-        <label for="category" class="font-semibold w-24">{{constants.categoryLabel}}</label>
-        <p-select id="category" [(ngModel)]="expense.category" appendTo="body" [options]="categories"
-            optionLabel="label" optionValue="value" placeholder="Select Category" class="flex-auto"></p-select>
-    </div>
+        <div class="dialog-form-row">
+            <label for="description" class="font-semibold w-24">
+                {{ constants.descriptionLabel}}
+            </label>
+            <input pInputText id="description" class="flex-auto" autocomplete="off" [(ngModel)]="expense.description"
+                #desc="ngModel" name="description" required />
+        </div>
+        <small class="p-error" *ngIf="desc.invalid && desc.touched ">Description is required</small>
 
-    <div class="dialog-form-row">
-        <label for="date" class="font-semibold w-24">{{constants.dateLabel}}</label>
-        <p-datepicker id="date" [(ngModel)]="expense.date" appendTo="body" dateFormat="dd M yy"
-            class="flex-auto"></p-datepicker>
-    </div>
+        <div class="dialog-form-row">
+            <label for="amount" class="font-semibold w-24">{{
 
-    <div class="flex justify-end gap-2 mt-4">
-        <p-button severity="secondary"
-            (click)="showAddExpenseDialog = false">{{constants.cancelButton}}</p-button>
-        <p-button 
-         (click)="addExpense()">{{constants.saveButton}}</p-button>
-    </div>
+                constants.amountLabel
+
+                }}</label>
+            <input pInputText id="amount" type="number" class="flex-auto" autocomplete="off"
+                [(ngModel)]="expense.amount" #amt="ngModel" name="amount" required min="1" />
+        </div>
+        <small class="p-error" *ngIf="amt.invalid && amt.touched">
+            <ng-container *ngIf="amt.errors?.['required']">
+                Amount is required
+            </ng-container>
+            <ng-container *ngIf="amt.errors?.['min']">
+                Amount must be greater than 0
+            </ng-container>
+        </small>
+
+        <div class="dialog-form-row">
+            <label for="category" class="font-semibold w-24">{{
+
+                constants.categoryLabel
+
+                }}</label>
+            <p-select id="category" [(ngModel)]="expense.category" name="category" #cat="ngModel" appendTo="body"
+                [options]="categories.slice(1)" optionLabel="label" optionValue="value" placeholder="Select Category"
+                class="flex-auto" required></p-select>
+        </div>
+        <small class="p-error" *ngIf="cat.invalid && cat.touched">Category is required</small>
+
+        <div class="dialog-form-row">
+            <label for="date" class="font-semibold w-24">{{
+
+                constants.dateLabel
+
+                }}</label>
+            <p-datepicker id="date" [(ngModel)]="expense.date" name="date" #dateCtrl="ngModel" appendTo="body"
+                placeholder="Select date" dateFormat="dd M yy" class="flex-auto" required></p-datepicker>
+        </div>
+        <small class="p-error" *ngIf="dateCtrl.invalid && dateCtrl.touched">Date is required</small>
+        <div class="flex justify-end gap-2 mt-4">
+            <p-button severity="secondary" (click)="onCancel(expenseForm)"
+                label="{{ constants.cancelButton }}"></p-button>
+            <p-button (click)="addExpense(expenseForm)" label="{{ constants.saveButton }}" [disabled]="
+
+        !expense.description ||
+
+        !expense.amount ||
+
+        expense.amount <= 0 ||
+
+        !expense.category ||
+
+        !expense.date
+
+      "></p-button>
+        </div>
+    </form>
 </p-dialog>

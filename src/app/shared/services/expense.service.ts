@@ -1,97 +1,134 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { Expense } from '../models/expense';
+
 import { ChartData } from 'chart.js';
+
+import { Expense } from '../models/expense';
 import { ExpenseFilter } from '../models/expense';
+import { CHART_COLORS } from '../constants/App_Constants';
+import { monthlyDatasetTemplate } from '../constants/Chart_Config';
+
 @Injectable({ providedIn: 'root' })
 export class ExpenseService {
 
-    expenses = signal<Expense[]>
-    (this.loadExpensesFromLocalStorage());
 
-    filters = signal<ExpenseFilter>({
+    allExpenses = signal<Expense[]>(this.loadExpensesFromLocalStorage());
+
+    currentFilters = signal<ExpenseFilter>({
         startDate: null,
         endDate: null,
         category: null
     });
 
-    addExpense(expense: Expense) {
-        this.expenses.update(exp => {
-            const updated = [...exp, expense];
-            this.saveExpensesToLocalStorage(updated);
-            return updated;
+
+    addExpense(newExpense: Expense): void {
+        const expenseWithId: Expense = {
+            ...newExpense,
+            id: crypto.randomUUID()
+        };
+
+        this.allExpenses.update(existingExpenses => {
+            const updatedExpenses = [...existingExpenses, expenseWithId];
+            this.saveExpensesToLocalStorage(updatedExpenses);
+            return updatedExpenses;
         });
     }
 
-    setFilters(filters: ExpenseFilter) {
-        this.filters.set(filters);
+    deleteExpense(expenseId: string): void {
+        this.allExpenses.update(existingExpenses => {
+            const updatedExpenses = existingExpenses.filter(exp => exp.id !== expenseId);
+            this.saveExpensesToLocalStorage(updatedExpenses);
+            return updatedExpenses;
+        });
     }
+
+    setFilters(updatedFilters: ExpenseFilter): void {
+        this.currentFilters.set(updatedFilters);
+    }
+
 
     filteredExpenses = computed(() => {
-        const { startDate, endDate, category } = this.filters();
-        return this.expenses().filter(exp => {
-            const dateMatch =
-                (!startDate || exp.date >= startDate) &&
-                (!endDate || exp.date <= endDate);
-            const categoryMatch = !category || exp.category === category;
-            return dateMatch && categoryMatch;
-        });
+        const { startDate, endDate, category } = this.currentFilters();
+
+        const adjustedStartDate = startDate ? new Date(startDate) : null;
+        const adjustedEndDate = endDate ? new Date(endDate) : null;
+
+        if (adjustedEndDate) {
+            adjustedEndDate.setHours(23, 59, 59, 999);
+        }
+
+        return this.allExpenses()
+            .filter(expense => {
+                const expenseDate = new Date(expense.date);
+
+                const isDateInRange =
+                    (!adjustedStartDate || expenseDate >= adjustedStartDate) &&
+                    (!adjustedEndDate || expenseDate <= adjustedEndDate);
+
+                const isCategoryMatch = !category || expense.category === category;
+
+                return isDateInRange && isCategoryMatch;
+            })
+            .sort((exp1, exp2) => new Date(exp1.date).getTime() - new Date(exp2.date).getTime());
     });
 
+
     categoryChartData = computed<ChartData<'pie'>>(() => {
-        const data = this.filteredExpenses();
+        const filteredData = this.filteredExpenses();
         const categoryTotals: Record<string, number> = {};
-        data.forEach(e => categoryTotals[e.category] = (categoryTotals[e.category] || 0) + e.amount);
+
+        filteredData.forEach(expense => {
+            categoryTotals[expense.category] = (categoryTotals[expense.category] || 0) + expense.amount;
+        });
 
         return {
             labels: Object.keys(categoryTotals),
             datasets: [
                 {
                     data: Object.values(categoryTotals),
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                    backgroundColor: CHART_COLORS
                 }
             ]
         };
     });
 
+
     monthlyChartData = computed<ChartData<'bar'>>(() => {
-        const data = this.filteredExpenses();
-        if (!data.length) {
+        const filteredData = this.filteredExpenses();
+        if (!filteredData.length) {
             return { labels: [], datasets: [] };
         }
 
         const monthlyTotals: Record<string, number> = {};
-        data.forEach(e => {
-            const label = new Date(e.date).toLocaleString('default', { month: 'short', year: 'numeric' });
-            monthlyTotals[label] = (monthlyTotals[label] || 0) + e.amount;
+        filteredData.forEach(expense => {
+            const monthLabel = new Date(expense.date).toLocaleString('default', { month: 'short', year: 'numeric' });
+            monthlyTotals[monthLabel] = (monthlyTotals[monthLabel] || 0) + expense.amount;
         });
 
-        const labels = Object.keys(monthlyTotals).sort((a, b) => {
-            const [monthA, yearA] = a.split(' ');
-            const [monthB, yearB] = b.split(' ');
-            const dateA = new Date(`${monthA} 1, ${yearA}`);
-            const dateB = new Date(`${monthB} 1, ${yearB}`);
-            return dateA.getTime() - dateB.getTime();
-        });
+        const sortedLabels = Object.keys(monthlyTotals).sort((label1, label2) => {
+            const [monthLabel1, yearLabel1] = label1.split(' ');
+            const [monthLabel2, yearLabel2] = label2.split(' ');
 
+            const dateForLabel1 = new Date(`${monthLabel1} 1, ${yearLabel1}`);
+            const dateForLabel2 = new Date(`${monthLabel2} 1, ${yearLabel2}`);
+
+            return dateForLabel1.getTime() - dateForLabel2.getTime();
+        });
+        const data = sortedLabels.map(label => monthlyTotals[label]);
+        const dataset = { ...monthlyDatasetTemplate, data };
         return {
-            labels,
-            datasets: [
-                {
-                    label: 'Monthly Expenses',
-                    data: labels.map(l => monthlyTotals[l]),
-                    backgroundColor: '#42A5F5'
-                }
-            ]
+            labels: sortedLabels,
+            datasets: [dataset]
         };
     });
 
+
     private loadExpensesFromLocalStorage(): Expense[] {
-        const data = localStorage.getItem('expenses');
-        return data ? JSON.parse(data) : [];
+        const storedData = localStorage.getItem('expenses');
+        return storedData ? JSON.parse(storedData) : [];
     }
 
-    private saveExpensesToLocalStorage(expenses: Expense[]) {
-        localStorage.setItem('expenses', JSON.stringify(expenses));
-    }
 
+    private saveExpensesToLocalStorage(expensesToSave: Expense[]): void {
+        localStorage.setItem('expenses', JSON.stringify(expensesToSave));
+    }
 }

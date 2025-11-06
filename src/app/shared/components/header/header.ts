@@ -1,66 +1,38 @@
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { ButtonModule } from 'primeng/button';
-// import { DatePickerModule } from 'primeng/datepicker';
-
-// import { AutoCompleteModule } from 'primeng/autocomplete';
-// import { SelectModule } from 'primeng/select';
-// import { DialogModule } from 'primeng/dialog';
-// import { Expense } from '../../models/expense';
-// import { ExpenseService } from '../../services/expense.service';
-
-// @Component({
-//   selector: 'app-header',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule, ButtonModule, DatePickerModule, AutoCompleteModule, SelectModule, DialogModule],
-//   templateUrl: './header.html',
-//   styleUrls: ['./header.css']
-// })
-// export class HeaderComponent {
-//   constructor(private expenseService: ExpenseService) {}
-//   startDate: Date | null = null;
-//   endDate: Date | null = null;
-//   selectedCategory: string | null = null;
-// showAddExpenseDialog = false;
-// expense: Expense={ description: '', amount: 0, category: '', date: new Date() }
-//   categories = [
-//     { label: 'All Categories', value: null },
-//     { label: 'Food', value: 'Food' },
-//     { label: 'Travel', value: 'Travel' },
-//     { label: 'Shopping', value: 'Shopping' },
-//     { label: 'Bills', value: 'Bills' }
-//   ];
-
-  
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SelectModule } from 'primeng/select';
 import { DialogModule } from 'primeng/dialog';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
+
 import { Expense } from '../../models/expense';
 import { ExpenseService } from '../../services/expense.service';
-import { APP_CONSTANTS } from '../../constants/constStr';
+import { APP_CONSTANTS } from '../../constants/App_Constants';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonModule, DatePickerModule, AutoCompleteModule, SelectModule, DialogModule],
+  imports: [CommonModule, FormsModule, ButtonModule, DatePickerModule, AutoCompleteModule, SelectModule, DialogModule, FloatLabelModule, ToastModule],
   templateUrl: './header.html',
-  styleUrls: ['./header.css']
+  styleUrls: ['./header.css'],
+  providers: [MessageService]
 })
 export class HeaderComponent {
-  constants= APP_CONSTANTS;
-  constructor(private expenseService: ExpenseService) {}
+  constants = APP_CONSTANTS;
+  constructor(private expenseService: ExpenseService, private messageService: MessageService) { }
 
   startDate: Date | null = null;
   endDate: Date | null = null;
   selectedCategory: string | null = null;
 
   showAddExpenseDialog = false;
-  expense: Expense = {  description: '', amount: 0, category: '', date: new Date() };
+  expense: Expense = {id:'', description: '', amount: 0, category: '', date: new Date() };
 
   categories = [
     { label: 'All Categories', value: null },
@@ -78,22 +50,41 @@ export class HeaderComponent {
     });
   }
 
-  addExpense() {
+  addExpense(form?: NgForm) {
     if (!this.expense.description || !this.expense.amount || !this.expense.category || !this.expense.date) {
-      return; 
+      return;
     }
 
     this.expenseService.addExpense({
+      id: crypto.randomUUID(),
       description: this.expense.description,
       amount: this.expense.amount,
       category: this.expense.category,
-      date: this.expense.date 
+      date: this.expense.date
+    });
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Expense Added',
+      detail: 'Your expense has been successfully added!',
+      life: 3000
     });
 
     this.showAddExpenseDialog = false;
-    this.expense = { description: '', amount: 0, category: '', date: new Date() };
+    this.expense = { description: '', amount: 0, category: '', date: new Date(),id:'' };
+      if (form) {
+      form.resetForm()
+    }
 
-    this.applyFilter(); 
+    this.applyFilter();
+  }
+
+  onCancel(form?: NgForm) {
+    this.showAddExpenseDialog = false;
+    this.expense = { description: '', amount: 0, category: '', date: new Date(),id:'' };
+    if (form) {
+      form.resetForm()
+    }
   }
 }
 
