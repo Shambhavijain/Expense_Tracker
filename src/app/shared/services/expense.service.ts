@@ -44,6 +44,7 @@ export class ExpenseService {
     setFilters(updatedFilters: ExpenseFilter): void {
         this.currentFilters.set(updatedFilters);
     }
+    
 
 
     filteredExpenses = computed(() => {

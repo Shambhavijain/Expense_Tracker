@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, Component, computed, inject, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
@@ -13,6 +13,7 @@ import { MessageService } from 'primeng/api';
 import { ExpenseService } from '../shared/services/expense.service';
 import { APP_CONSTANTS } from '../shared/constants/App_Constants';
 import { defaultChartOptions } from '../shared/constants/Chart_Config';
+import { Expense, ExpenseFilter } from '../shared/models/expense';
 
 
 @Component({
@@ -21,10 +22,10 @@ import { defaultChartOptions } from '../shared/constants/Chart_Config';
   imports: [CardModule,
     ChartModule,
     CommonModule,
-    NgFor,
     PaginatorModule,
     ButtonModule,
-    ToastModule],
+    ToastModule,
+  ],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css'],
   providers: [MessageService]
@@ -37,9 +38,9 @@ export class DashboardComponent {
   private expenseService = inject(ExpenseService);
   private cd = inject(ChangeDetectorRef);
 
-  allExpenses = this.expenseService.allExpenses;
-  activeFilters = this.expenseService.currentFilters;
-  filteredExpenses = this.expenseService.filteredExpenses;
+  allExpenses: WritableSignal<Expense[]> = this.expenseService.allExpenses;
+  activeFilters: WritableSignal<ExpenseFilter> = this.expenseService.currentFilters;
+  filteredExpenses: Signal<Expense[]> = this.expenseService.filteredExpenses;
 
   filteredData = computed(() => {
     this.filteredExpenses();
@@ -47,15 +48,15 @@ export class DashboardComponent {
   activeTab = signal<'list' | 'analytics'>('list');
 
 
-  totalExpenseAmount = computed(() =>
+  totalExpenseAmount: Signal<number> = computed(() =>
     this.allExpenses().reduce((sum, expense) => sum + expense.amount, 0)
   );
 
-  averageExpenseAmount = computed(() =>
+  averageExpenseAmount: Signal<number> = computed(() =>
     this.allExpenses().length ? this.totalExpenseAmount() / this.allExpenses().length : 0
   );
 
-  topSpendingCategory = computed(() => {
+  topSpendingCategory: Signal<string> = computed(() => {
     const expenses = this.allExpenses();
     if (!expenses.length) return 'N/A';
 
@@ -81,7 +82,7 @@ export class DashboardComponent {
     this.messageService.add({
       severity: 'success',
       summary: 'Expense Added',
-      detail: 'Your expense has been deleted added!',
+      detail: 'Your expense has been deleted successfully!',
       life: 3000
     });
   }
@@ -90,15 +91,13 @@ export class DashboardComponent {
   rowsPerPage: WritableSignal<number> = signal(5);
   first: WritableSignal<number> = signal(0);
 
-  paginatedExpenses = computed(() => {
+  paginatedExpenses: Signal<Expense[]> = computed(() => {
     const startIndex = this.first();
     const endIndex = startIndex + this.rowsPerPage();
     return this.filteredExpenses().slice(startIndex, endIndex);
   });
 
-
-
-  onPageChange(event: PaginatorState) {
+  onPageChange(event: PaginatorState): void {
     this.first.set(event.first ?? 0);
     this.rowsPerPage.set(event.rows ?? 5);
     this.currentPage.set(event.page ?? 0);

@@ -13,4 +13,21 @@ body::-webkit-scrollbar {
     color: black !important;
 }
 
+p-floatlabel .p-datepicker input.p-inputtext {
+   padding-top: 0.6rem !important;
+}
+p-floatlabel .p-datepicker.p-inputwrapper-filled ~ label,
+p-floatlabel .p-datepicker.p-inputwrapper-focus ~ label {
+   top: -0.9rem !important;
+   font-size: 0.85rem !important;
+}
 
+p-floatlabel label {
+   z-index: 5 !important;
+   position: absolute;
+   
+}
+
+p-floatlabel .p-datepicker input {
+   padding-top: 1.2rem !important;  
+}

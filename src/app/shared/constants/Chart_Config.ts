@@ -5,9 +5,8 @@ export const monthlyDatasetTemplate: ChartDataset<'bar'> = {
   label: 'Monthly Expenses',
   data: [], 
   backgroundColor: '#42A5F5',
-  maxBarThickness: 60,
-  barPercentage: 1,
-  categoryPercentage: 1,
+  barPercentage: 0.7,
+  categoryPercentage: 0.9,
   borderSkipped: false
 };
 
@@ -31,7 +30,7 @@ export const defaultChartOptions: ChartOptions = {
       grid: {
         display: false
       },
-      offset: false,
+      offset: true,
       ticks: {
         align: 'center'
       }

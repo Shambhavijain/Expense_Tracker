@@ -10,26 +10,28 @@
     <div class="header-right">
 
         <div class="filters-section">
-            <i class="pi pi-filter"
-                style="font-size: 1.2rem; margin-right: 0.1rem; margin-top: 2.6rem; color: black;"></i>
+            <i [ngClass]="isFilterApplied() ? 'pi pi-filter-slash' : 'pi pi-filter'" (click)="resetFilters()"
+                style="font-size: 1.2rem; margin-right: 0.1rem; margin-top: 2.6rem; color: black;">
+            </i>
             <div class="filter-item">
-                <!-- <span>{{constants.filterStartDate}}</span> -->
+
+
                 <p-floatlabel>
                     <p-datepicker [(ngModel)]="startDate" inputId="startdate" dateFormat="dd M yy"
-                        (ngModelChange)="applyFilter()" placeholder="From date"></p-datepicker>
-                    <label for="startdate">Start Date</label>
+                        (ngModelChange)="applyFilter()"></p-datepicker>
+                    <label for="startdate" style="color: black; ">Start Date</label>
                 </p-floatlabel>
             </div>
             <div class="filter-item">
-                <!-- <span>{{constants.filterEndDate}}</span> -->
+
                 <p-floatlabel>
-                    <p-datepicker [(ngModel)]="endDate" inputId="enddate" dateFormat="dd M yy"
-                        (ngModelChange)="applyFilter()" placeholder="To date"></p-datepicker>
-                    <label for="enddate">End Date</label>
+                    <p-datepicker [(ngModel)]="endDate" inputId="enddate" dateFormat="dd M yy" [minDate]="minEndDate"
+                        (ngModelChange)="applyFilter()"></p-datepicker>
+                    <label for="enddate" style="color: black; ">End Date</label>
                 </p-floatlabel>
             </div>
             <div class="filter-item">
-                <!-- <span>{{constants.filterCategory}}</span> -->
+
                 <p-select [(ngModel)]="selectedCategory" [options]="categories" optionLabel="label"
                     (ngModelChange)="applyFilter()" optionValue="value" placeholder="Select"></p-select>
             </div>

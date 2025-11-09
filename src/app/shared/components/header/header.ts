@@ -18,7 +18,16 @@ import { APP_CONSTANTS } from '../../constants/App_Constants';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonModule, DatePickerModule, AutoCompleteModule, SelectModule, DialogModule, FloatLabelModule, ToastModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonModule,
+    DatePickerModule,
+    AutoCompleteModule,
+    SelectModule,
+    DialogModule,
+    FloatLabelModule,
+    ToastModule],
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
   providers: [MessageService]
@@ -29,10 +38,11 @@ export class HeaderComponent {
 
   startDate: Date | null = null;
   endDate: Date | null = null;
+  minEndDate: Date | null = null;
   selectedCategory: string | null = null;
 
   showAddExpenseDialog = false;
-  expense: Expense = {id:'', description: '', amount: 0, category: '', date: new Date() };
+  expense: Expense = { id: '', description: '', amount: 0, category: '', date: new Date() };
 
   categories = [
     { label: 'All Categories', value: null },
@@ -43,6 +53,11 @@ export class HeaderComponent {
   ];
 
   applyFilter() {
+    this.minEndDate = this.startDate;
+
+    if (this.endDate && this.startDate && this.endDate < this.startDate) {
+      this.endDate = this.startDate;
+    }
     this.expenseService.setFilters({
       startDate: this.startDate,
       endDate: this.endDate,
@@ -71,8 +86,8 @@ export class HeaderComponent {
     });
 
     this.showAddExpenseDialog = false;
-    this.expense = { description: '', amount: 0, category: '', date: new Date(),id:'' };
-      if (form) {
+    this.expense = { description: '', amount: 0, category: '', date: new Date(), id: '' };
+    if (form) {
       form.resetForm()
     }
 
@@ -81,10 +96,29 @@ export class HeaderComponent {
 
   onCancel(form?: NgForm) {
     this.showAddExpenseDialog = false;
-    this.expense = { description: '', amount: 0, category: '', date: new Date(),id:'' };
+    this.expense = { description: '', amount: 0, category: '', date: new Date(), id: '' };
     if (form) {
       form.resetForm()
     }
+  }
+
+  isFilterApplied(): boolean {
+    return !!(this.startDate || this.endDate || this.selectedCategory);
+  }
+
+
+  resetFilters(): void {
+
+    this.startDate = null;
+    this.endDate = null;
+    this.selectedCategory = null;
+
+    this.expenseService.setFilters({
+      startDate: this.startDate,
+      endDate: this.endDate,
+      category: this.selectedCategory
+    });
+    this.applyFilter();
   }
 }
 
