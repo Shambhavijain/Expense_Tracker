@@ -69,7 +69,7 @@ export class ExpenseService {
 
                 return isDateInRange && isCategoryMatch;
             })
-            .sort((exp1, exp2) => new Date(exp1.date).getTime() - new Date(exp2.date).getTime());
+            .sort((expense1, expense2) => new Date(expense1.date).getTime() - new Date(expense2.date).getTime());
     });
 
 

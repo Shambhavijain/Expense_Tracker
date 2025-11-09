@@ -19,7 +19,7 @@
                 <p-floatlabel>
                     <p-datepicker [(ngModel)]="startDate" inputId="startdate" dateFormat="dd M yy"
                         (ngModelChange)="applyFilter()"></p-datepicker>
-                    <label for="startdate" style="color: black; ">Start Date</label>
+                    <label for="startdate" style="color: black; ">{{constants.startDtae}}</label>
                 </p-floatlabel>
             </div>
             <div class="filter-item">
@@ -27,7 +27,7 @@
                 <p-floatlabel>
                     <p-datepicker [(ngModel)]="endDate" inputId="enddate" dateFormat="dd M yy" [minDate]="minEndDate"
                         (ngModelChange)="applyFilter()"></p-datepicker>
-                    <label for="enddate" style="color: black; ">End Date</label>
+                    <label for="enddate" style="color: black; ">{{constants.endDate}}</label>
                 </p-floatlabel>
             </div>
             <div class="filter-item">
@@ -55,7 +55,7 @@
             <input pInputText id="description" class="flex-auto" autocomplete="off" [(ngModel)]="expense.description"
                 #desc="ngModel" name="description" required />
         </div>
-        <small class="p-error" *ngIf="desc.invalid && desc.touched ">Description is required</small>
+        <small class="p-error" *ngIf="desc.invalid && desc.touched ">{{constants.descriptionError}}</small>
 
         <div class="dialog-form-row">
             <label for="amount" class="font-semibold w-24">{{
@@ -68,10 +68,10 @@
         </div>
         <small class="p-error" *ngIf="amt.invalid && amt.touched">
             <ng-container *ngIf="amt.errors?.['required']">
-                Amount is required
+                {{constants.amountError}}
             </ng-container>
             <ng-container *ngIf="amt.errors?.['min']">
-                Amount must be greater than 0
+                {{constants.amountgreaterthanzeroError}}
             </ng-container>
         </small>
 
@@ -85,7 +85,7 @@
                 [options]="categories.slice(1)" optionLabel="label" optionValue="value" placeholder="Select Category"
                 class="flex-auto" required></p-select>
         </div>
-        <small class="p-error" *ngIf="cat.invalid && cat.touched">Category is required</small>
+        <small class="p-error" *ngIf="cat.invalid && cat.touched">{{constants.categoryError}}</small>
 
         <div class="dialog-form-row">
             <label for="date" class="font-semibold w-24">{{
@@ -96,23 +96,13 @@
             <p-datepicker id="date" [(ngModel)]="expense.date" name="date" #dateCtrl="ngModel" appendTo="body"
                 placeholder="Select date" dateFormat="dd M yy" class="flex-auto" required></p-datepicker>
         </div>
-        <small class="p-error" *ngIf="dateCtrl.invalid && dateCtrl.touched">Date is required</small>
+        <small class="p-error" *ngIf="dateCtrl.invalid && dateCtrl.touched">{{constants.dateError}}</small>
         <div class="flex justify-end gap-2 mt-4">
             <p-button severity="secondary" (click)="onCancel(expenseForm)"
                 label="{{ constants.cancelButton }}"></p-button>
             <p-button (click)="addExpense(expenseForm)" label="{{ constants.saveButton }}" [disabled]="
-
-        !expense.description ||
-
-        !expense.amount ||
-
-        expense.amount <= 0 ||
-
-        !expense.category ||
-
-        !expense.date
-
-      "></p-button>
+        !expense.description || !expense.amount || expense.amount <= 0 || !expense.category || !expense.date">
+            </p-button>
         </div>
     </form>
 </p-dialog>

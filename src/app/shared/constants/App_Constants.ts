@@ -29,7 +29,14 @@ export const APP_CONSTANTS = {
     description: 'Description',
     spendingByCategory: 'Spending by Category',
     monthlyTrends: 'Monthly Trends',
-    delete:'Delete'
+    delete: 'Delete',
+    startDtae: 'Start Date',
+    endDate: 'End Date',
+    descriptionError: 'Description is Required',
+    amountError: 'Amount is Required',
+    amountgreaterthanzeroError: 'Amount must be greater than 0',
+    categoryError: 'Category is Required',
+    dateError: 'Date is Required'
 
 };
 

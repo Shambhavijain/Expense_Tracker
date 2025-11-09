@@ -65,7 +65,7 @@ export class HeaderComponent {
     });
   }
 
-  addExpense(form?: NgForm) {
+  addExpense(form: NgForm) {
     if (!this.expense.description || !this.expense.amount || !this.expense.category || !this.expense.date) {
       return;
     }
@@ -85,21 +85,35 @@ export class HeaderComponent {
       life: 3000
     });
 
-    this.showAddExpenseDialog = false;
-    this.expense = { description: '', amount: 0, category: '', date: new Date(), id: '' };
     if (form) {
-      form.resetForm()
+      form.resetForm({
+        description: '',
+        amount: 0,
+        category: '',
+        date: new Date(),
+        id: ''
+      });
     }
+
+    this.showAddExpenseDialog = false;
 
     this.applyFilter();
   }
 
-  onCancel(form?: NgForm) {
-    this.showAddExpenseDialog = false;
-    this.expense = { description: '', amount: 0, category: '', date: new Date(), id: '' };
+  onCancel(form: NgForm) {
+
     if (form) {
-      form.resetForm()
+      form.resetForm({
+        description: '',
+        amount: 0,
+        category: '',
+        date: new Date(),
+        id: ''
+      });
     }
+
+    this.showAddExpenseDialog = false;
+
   }
 
   isFilterApplied(): boolean {

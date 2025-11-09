@@ -184,7 +184,7 @@
 
         }
         <p-paginator style="background-color:white; color: black;" [rows]="rowsPerPage()"
-            [totalRecords]="filteredExpenses().length" [first]="first()" (onPageChange)="onPageChange($event)">
+            [totalRecords]="filteredExpenses().length" [first]="pageStartIndex()" (onPageChange)="onPageChange($event)">
         </p-paginator>
     </div>
 

@@ -1,6 +1,6 @@
 
 import { ChangeDetectorRef, Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule} from '@angular/common';
 
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { CardModule } from 'primeng/card';
@@ -42,9 +42,7 @@ export class DashboardComponent {
   activeFilters: WritableSignal<ExpenseFilter> = this.expenseService.currentFilters;
   filteredExpenses: Signal<Expense[]> = this.expenseService.filteredExpenses;
 
-  filteredData = computed(() => {
-    this.filteredExpenses();
-  })
+ 
   activeTab = signal<'list' | 'analytics'>('list');
 
 
@@ -89,19 +87,19 @@ export class DashboardComponent {
 
   currentPage: WritableSignal<number> = signal(0);
   rowsPerPage: WritableSignal<number> = signal(5);
-  first: WritableSignal<number> = signal(0);
+  pageStartIndex: WritableSignal<number> = signal(0);
 
   paginatedExpenses: Signal<Expense[]> = computed(() => {
-    const startIndex = this.first();
+    const startIndex = this.pageStartIndex();
     const endIndex = startIndex + this.rowsPerPage();
     return this.filteredExpenses().slice(startIndex, endIndex);
   });
 
   onPageChange(event: PaginatorState): void {
-    this.first.set(event.first ?? 0);
+    this.pageStartIndex.set(event.first ?? 0);
     this.rowsPerPage.set(event.rows ?? 5);
     this.currentPage.set(event.page ?? 0);
-    this.cd.detectChanges();
+    // this.cd.detectChanges();
   }
 
 
