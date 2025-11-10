@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { CommonModule} from '@angular/common';
 
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
@@ -36,8 +36,7 @@ export class DashboardComponent {
 
   private messageService = inject(MessageService)
   private expenseService = inject(ExpenseService);
-  private cd = inject(ChangeDetectorRef);
-
+ 
   allExpenses: WritableSignal<Expense[]> = this.expenseService.allExpenses;
   activeFilters: WritableSignal<ExpenseFilter> = this.expenseService.currentFilters;
   filteredExpenses: Signal<Expense[]> = this.expenseService.filteredExpenses;
@@ -99,9 +98,6 @@ export class DashboardComponent {
     this.pageStartIndex.set(event.first ?? 0);
     this.rowsPerPage.set(event.rows ?? 5);
     this.currentPage.set(event.page ?? 0);
-    // this.cd.detectChanges();
+    
   }
-
-
-
 }

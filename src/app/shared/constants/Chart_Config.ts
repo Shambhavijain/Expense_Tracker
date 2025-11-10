@@ -3,7 +3,7 @@ import { ChartOptions } from 'chart.js';
 
 export const monthlyDatasetTemplate: ChartDataset<'bar'> = {
   label: 'Monthly Expenses',
-  data: [], 
+  data: [],
   backgroundColor: '#42A5F5',
   barPercentage: 0.7,
   categoryPercentage: 0.9,
@@ -42,3 +42,5 @@ export const defaultChartOptions: ChartOptions = {
     }
   }
 };
+
+export const CHART_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'];

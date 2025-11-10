@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { HeaderComponent } from "./shared/components/header/header";
+import { HeaderComponent } from "./header/header";
 import { DashboardComponent } from './dashboard/dashboard';
 
 @Component({

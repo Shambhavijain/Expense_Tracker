@@ -40,8 +40,3 @@ export const APP_CONSTANTS = {
 
 };
 
-export const CHART_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'];
-
-
-
-

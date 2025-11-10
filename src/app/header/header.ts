@@ -12,9 +12,9 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
 
-import { Expense } from '../../models/expense';
-import { ExpenseService } from '../../services/expense.service';
-import { APP_CONSTANTS } from '../../constants/App_Constants';
+import { Expense } from '../shared/models/expense';
+import { ExpenseService } from '../shared/services/expense.service';
+import { APP_CONSTANTS } from '../shared/constants/App_Constants';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -135,4 +135,3 @@ export class HeaderComponent {
     this.applyFilter();
   }
 }
-

@@ -1,105 +1,3 @@
-<!-- <p-toast position="bottom-right"></p-toast>
-<div class="dashboard-container">
-
-    <div class="summary-cards">
-        <p-card class="summary-card">
-            <div class="card-header">
-                <h3>{{constants.totalExpensesTitle}}</h3>
-                <i class="pi pi-indian-rupee" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem; color: rgb(77, 155, 239);"></i>
-            </div>
-            <p class="amount">{{ totalExpenseAmount() | currency:'INR': 'symbol':'1.2-2' }}</p>
-            <small>{{ allExpenses().length }} {{constants.transactionsLabel}}</small>
-        </p-card>
-
-        <p-card class="summary-card">
-            <div class="card-header">
-                <h3>{{constants.averageExpenseTitle}}</h3>
-                <i class="pi pi-chart-line" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem; color: plum;"></i>
-            </div>
-            <p class="amount">{{ averageExpenseAmount() | currency:'INR': 'symbol':'1.2-2'}}</p>
-            <small>{{constants.perTransactionLabel}}</small>
-        </p-card>
-
-        <p-card class="summary-card">
-            <div class="card-header">
-                <h3>{{constants.topCategoryTitle}}</h3>
-                <i class="pi pi-shopping-cart" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem; color:rgb(224, 122, 84)"></i>
-            </div>
-            <p class="amount">{{ topSpendingCategory() === 'N/A' ? '0.00' : topSpendingCategory() }}</p>
-            <small>{{ topSpendingCategory() + " a lot" }}</small>
-        </p-card>
-    </div>
-
-    <div class="tabs">
-        <button [class.active]="activeTab() === 'list'"
-            (click)="switchTab('list')">{{constants.expenseListTab}}</button>
-        <button [class.active]="activeTab() === 'analytics'"
-            (click)="switchTab('analytics')">{{constants.analyticsTab}}</button>
-    </div>
-
-    <ng-container *ngIf="activeTab() === 'list'">
-        <div class="tab-content">
-            <div *ngIf="filteredExpenses().length === 0" class="empty-state">
-                {{constants.emptyStateMessage}}
-            </div>
-
-
-            <table *ngIf="filteredExpenses().length > 0" class="expense-table">
-                <thead>
-                    <tr>
-                        <th>{{constants.category}}</th>
-                        <th>{{constants.date}}</th>
-                        <th>{{constants.amount}}</th>
-                        <th>{{constants.description}}</th>
-                        <th>{{constants.delete}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr *ngFor="let expense of paginatedExpenses()">
-                        <td>{{ expense.category }}</td>
-                        <td>{{ expense.date | date:'dd MMM yyyy' }}</td>
-                        <td>{{ expense.amount | currency:'INR': 'symbol':'1.2-2' }}</td>
-                        <td>{{ expense.description }}</td>
-                        <td>
-                            <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                        (click)="onDeleteExpense(expense.id)">
-                    </button>
-                        </td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-
-            <p-paginator style="background-color:white; color: black;" [rows]="rowsPerPage()"
-                [totalRecords]="filteredExpenses().length" [first]="first()" (onPageChange)="onPageChange($event)">
-            </p-paginator>
-
-        </div>
-
-    </ng-container>
-
-    <ng-container *ngIf="activeTab() === 'analytics'">
-        <div class="analytics-container">
-            <p-card class="chart-card">
-                <h4>{{constants.spendingByCategory}}</h4>
-                <p-chart type="pie" [data]="categoryChartData()" [options]="chartOptions"></p-chart>
-            </p-card>
-            <p-card class="chart-card ">
-                <h4>{{constants.monthlyTrends}}</h4>
-                <p-chart type="bar" [data]="monthlyChartData()" [options]="chartOptions"></p-chart>
-            </p-card>
-        </div>
-    </ng-container>
-
-
-
-
-
-     -->
-
-
-
 <p-toast position="bottom-right"></p-toast>
 <div class="dashboard-container">
     <div class="summary-cards">
@@ -142,7 +40,6 @@
         </button>
     </div>
 
-
     @if (activeTab() === 'list') {
     <div class="tab-content">
 
@@ -181,7 +78,6 @@
                 }
             </tbody>
         </table>
-
         }
         <p-paginator style="background-color:white; color: black;" [rows]="rowsPerPage()"
             [totalRecords]="filteredExpenses().length" [first]="pageStartIndex()" (onPageChange)="onPageChange($event)">
@@ -189,7 +85,6 @@
     </div>
 
     }
-
 
     @if (activeTab() === 'analytics') {
     <div class="analytics-container">

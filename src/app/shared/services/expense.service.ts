@@ -4,7 +4,7 @@ import { ChartData } from 'chart.js';
 
 import { Expense } from '../models/expense';
 import { ExpenseFilter } from '../models/expense';
-import { CHART_COLORS } from '../constants/App_Constants';
+import { CHART_COLORS } from '../constants/Chart_Config';
 import { monthlyDatasetTemplate } from '../constants/Chart_Config';
 
 @Injectable({ providedIn: 'root' })
@@ -18,7 +18,6 @@ export class ExpenseService {
         endDate: null,
         category: null
     });
-
 
     addExpense(newExpense: Expense): void {
         const expenseWithId: Expense = {
@@ -44,8 +43,6 @@ export class ExpenseService {
     setFilters(updatedFilters: ExpenseFilter): void {
         this.currentFilters.set(updatedFilters);
     }
-    
-
 
     filteredExpenses = computed(() => {
         const { startDate, endDate, category } = this.currentFilters();
@@ -72,7 +69,6 @@ export class ExpenseService {
             .sort((expense1, expense2) => new Date(expense1.date).getTime() - new Date(expense2.date).getTime());
     });
 
-
     categoryChartData = computed<ChartData<'pie'>>(() => {
         const filteredData = this.filteredExpenses();
         const categoryTotals: Record<string, number> = {};
@@ -91,7 +87,6 @@ export class ExpenseService {
             ]
         };
     });
-
 
     monthlyChartData = computed<ChartData<'bar'>>(() => {
         const filteredData = this.filteredExpenses();
@@ -122,12 +117,10 @@ export class ExpenseService {
         };
     });
 
-
     private loadExpensesFromLocalStorage(): Expense[] {
         const storedData = localStorage.getItem('expenses');
         return storedData ? JSON.parse(storedData) : [];
     }
-
 
     private saveExpensesToLocalStorage(expensesToSave: Expense[]): void {
         localStorage.setItem('expenses', JSON.stringify(expensesToSave));
