@@ -77,7 +77,6 @@ export class HeaderComponent {
     }
 
     this.expenseService.addExpense({
-      id: crypto.randomUUID(),
       description: this.expense.description,
       amount: this.expense.amount,
       category: this.expense.category,
