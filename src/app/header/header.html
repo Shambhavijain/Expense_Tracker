@@ -4,18 +4,17 @@
         <i class="pi pi-wallet" style="font-size: 1.5rem; margin-right: 0.5rem; margin-top: 0.5rem; color:black"></i>
         <div class="header-text">
             <h2 class="title">{{constants.appTitle}}</h2>
-            <p class="subtitle"> {{constants.appSubtitle}}</p>
+            <p class="subtitle">{{constants.appSubtitle}}</p>
         </div>
     </div>
     <div class="header-right">
 
         <div class="filters-section">
-            <i [ngClass]="isFilterApplied() ? 'pi pi-filter-slash' : 'pi pi-filter'" (click)="resetFilters()"
+            <i [ngClass]="isFilterApplied() ? 'pi pi-filter-slash' : 'pi pi-filter'" pInputText pTooltip="Filters" tooltipPosition="bottom" (click)="resetFilters()"
                 style="font-size: 1.2rem; margin-right: 0.1rem; margin-top: 2.6rem; color: black;">
             </i>
+
             <div class="filter-item">
-
-
                 <p-floatlabel>
                     <p-datepicker [(ngModel)]="startDate" inputId="startdate" dateFormat="dd M yy"
                         (ngModelChange)="applyFilter()"></p-datepicker>

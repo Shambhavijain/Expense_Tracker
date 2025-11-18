@@ -31,3 +31,7 @@ p-floatlabel label {
 p-floatlabel .p-datepicker input {
    padding-top: 1.2rem !important;  
 }
+
+.p-tooltip .p-tooltip-text {
+    font-size: 12px; 
+}

@@ -32,6 +32,7 @@
     color: #fff;
     max-width: 1480px;
     margin: 0 auto;
+    border: 2px solid rgb(219, 219, 219)
 }
 
 .icon-title {

@@ -10,7 +10,6 @@ import { monthlyDatasetTemplate } from '../constants/Chart_Config';
 @Injectable({ providedIn: 'root' })
 export class ExpenseService {
 
-
     allExpenses = signal<Expense[]>(this.loadExpensesFromLocalStorage());
 
     currentFilters = signal<ExpenseFilter>({

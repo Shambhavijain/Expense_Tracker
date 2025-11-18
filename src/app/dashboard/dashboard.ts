@@ -41,9 +41,7 @@ export class DashboardComponent {
   activeFilters: WritableSignal<ExpenseFilter> = this.expenseService.currentFilters;
   filteredExpenses: Signal<Expense[]> = this.expenseService.filteredExpenses;
 
- 
   activeTab = signal<'list' | 'analytics'>('list');
-
 
   totalExpenseAmount: Signal<number> = computed(() =>
     this.allExpenses().reduce((sum, expense) => sum + expense.amount, 0)

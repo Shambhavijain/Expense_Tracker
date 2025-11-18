@@ -10,6 +10,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 import { Expense } from '../shared/models/expense';
@@ -27,21 +28,26 @@ import { APP_CONSTANTS } from '../shared/constants/App_Constants';
     SelectModule,
     DialogModule,
     FloatLabelModule,
-    ToastModule],
+    ToastModule,
+  TooltipModule],
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
   providers: [MessageService]
 })
 export class HeaderComponent {
-  constants = APP_CONSTANTS;
+
   constructor(private expenseService: ExpenseService, private messageService: MessageService) { }
+
+  constants = APP_CONSTANTS;
 
   startDate: Date | null = null;
   endDate: Date | null = null;
   minEndDate: Date | null = null;
+
   selectedCategory: string | null = null;
 
-  showAddExpenseDialog = false;
+  showAddExpenseDialog: boolean = false;
+
   expense: Expense = { id: '', description: '', amount: 0, category: '', date: new Date() };
 
   categories = [
@@ -52,7 +58,7 @@ export class HeaderComponent {
     { label: 'Bills', value: 'Bills' }
   ];
 
-  applyFilter() {
+  applyFilter(): void {
     this.minEndDate = this.startDate;
 
     if (this.endDate && this.startDate && this.endDate < this.startDate) {
@@ -65,7 +71,7 @@ export class HeaderComponent {
     });
   }
 
-  addExpense(form: NgForm) {
+  addExpense(form: NgForm): void {
     if (!this.expense.description || !this.expense.amount || !this.expense.category || !this.expense.date) {
       return;
     }
@@ -100,7 +106,7 @@ export class HeaderComponent {
     this.applyFilter();
   }
 
-  onCancel(form: NgForm) {
+  onCancel(form: NgForm): void {
 
     if (form) {
       form.resetForm({
@@ -119,7 +125,6 @@ export class HeaderComponent {
   isFilterApplied(): boolean {
     return !!(this.startDate || this.endDate || this.selectedCategory);
   }
-
 
   resetFilters(): void {
 
