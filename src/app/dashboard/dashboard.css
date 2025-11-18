@@ -33,7 +33,7 @@
     font-weight: 500;
 }
 
-/* Filters */
+
 .filters {
     display: flex;
     gap: 0.8rem;
@@ -50,7 +50,7 @@
     font-size: 0.9rem;
 }
 
-/* Summary Cards */
+
 .summary-cards {
     display: flex;
     gap: 1rem;
