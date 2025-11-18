@@ -63,8 +63,6 @@ export class DashboardComponent {
     return Object.entries(categoryTotals).sort((exp1, exp2) => exp2[1] - exp1[1])[0][0];
   });
 
-  
-
   categoryChartData = this.expenseService.categoryChartData;
   monthlyChartData = this.expenseService.monthlyChartData;
 
