@@ -35,8 +35,8 @@
                     (ngModelChange)="applyFilter()" optionValue="value" placeholder="Select"></p-select>
             </div>
             <div class="add-button">
-                <button pButton icon="pi pi-plus"
-                    (click)="showAddExpenseDialog = true">{{constants.addExpenseButton}}</button>
+                <p-button icon="pi pi-plus" label="{{constants.addExpenseButton}}"
+                    (click)="showAddExpenseDialog = true"></p-button>
             </div>
         </div>
     </div>
