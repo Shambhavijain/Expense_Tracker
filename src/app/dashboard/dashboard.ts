@@ -75,7 +75,7 @@ export class DashboardComponent {
     this.expenseService.deleteExpense(id);
     this.messageService.add({
       severity: 'success',
-      summary: 'Expense Added',
+      summary: 'Expense Deleted',
       detail: 'Your expense has been deleted successfully!',
       life: 3000
     });
