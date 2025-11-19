@@ -10,4 +10,3 @@ export interface ExpenseFilter {
   endDate: Date | null;
   category: string | null;
 }
-

@@ -4,10 +4,8 @@ body {
   margin: 0;
 }
 
-
-
 body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
+  display: none;
 }
 .p-paginator .p-paginator-page {
     color: black !important;
